@@ -8,32 +8,28 @@ window.onload = function () {
         log.textContent = e.target.value;
     }
 
-
     var lastWord = ""
-
-    console.log(input.value.substring(1, input.value.length-1));
-
-    input.onkeyup = function(e) {
-        if (e.code == "ShiftLeft" || e.code == "LeftShift") return;
-
-        if (e.code == "Backspace") {
-            const l = input.value.split(" ");
-            lastWord = l[l.length - 1];
-            return;
-        }
-
-        if (e.code == "Space") {
-            const inputValueWithoutLastWord = input.value.substring(0, input.value.length - lastWord.length - 1);
-            const rendomizedWord = randomizeStringWithoutFirstAndLastChar(lastWord);
+    document.addEventListener('keydown', function(event) {
+        if (event.key == ' ') {
+            const randomizedWord = randomizeStringWithoutFirstAndLastChar(lastWord);    
+            addWordToInput(randomizedWord, input);
+            console.log(randomizedWord);
             lastWord = "";
-            input.value = inputValueWithoutLastWord + rendomizedWord + " ";
-            console.log(inputValueWithoutLastWord);
+        } else if (event.key == 'Backspace') {
+            lastWord = lastWord.substring(0, lastWord.length - 1);
+
         } else {
-            lastWord += input.value[input.value.length - 1];
-            console.log(lastWord);
-        } 
-    }
+            if (event.key.length == 1)
+                lastWord += event.key;
+        }
+    });
     
+
+    function addWordToInput(word, input_field) {
+        const prefix = input_field.value.substring(0, input_field.value.length - word.length);
+        input_field.value = prefix + word + " ";
+    }
+
     function randomizeStringWithoutFirstAndLastChar(str) {
         if (str.length <= 3) return str;
         firstLetter = str[0];
