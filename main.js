@@ -57,7 +57,6 @@ window.onload = function () {
     }
 
 
-    console.log(randomizeStringWithoutFirstAndLastChar("Markus"));
 
 
 }
